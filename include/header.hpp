@@ -9,7 +9,6 @@
 #include <ostream>
 #include <chrono>
 #include <cstdlib>
-#include <set>
 #include <algorithm>
 #include <functional>
 
@@ -19,7 +18,6 @@ using std::cout;
 using std::ostream;
 using std::stringstream;
 using std::endl;
-using std::set;
 
 void StraightExperiment(const vector<unsigned int>& buffer);
 void BackExperiment(const vector<unsigned int>& buffer);

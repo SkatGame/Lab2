@@ -1,6 +1,5 @@
 #include <header.hpp>
 #include <random>
-//vector<double> cache {0.125,1,2,4,8,9};
 //128Kb<1Mb<2Mb<4Mb<8Mb<9Mb
 
 int Rand(int n)
