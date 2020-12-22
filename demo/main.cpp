@@ -2,9 +2,9 @@
 #include <random>
 //128Kb<1Mb<2Mb<4Mb<8Mb<9Mb
 
-int Rand(int n)
-{
-  return rand() % n ;
+inline void Heating (int* arr, int& h,const double& buffer) {
+  for (unsigned int i = 1; i < buffer + 1; i += st)  // прогрев
+    h = arr[i];
 }
 
 int main() {
@@ -37,13 +37,13 @@ vector<unsigned int> GeneratorVector(vector<double>& cache){
   return  buffer;
 }
 
-  void StraightExperiment(const vector<unsigned int>& buffer) {
+  void StraightExperiment(const vector<unsigned int>& buffer, ostream& ss) {
     for (double z = 0; z < buffer.size(); ++z) {
       auto* arr = new int[buffer[z]];
 
       [[maybe_unused]] int h = 0;
-      for (unsigned int i = 0; i < buffer[z]; i += st)  // прогрев
-        h = arr[i];
+
+      Heating(arr,h,buffer[z]);
 
       auto start = std::chrono::high_resolution_clock::now();
 
@@ -52,19 +52,19 @@ vector<unsigned int> GeneratorVector(vector<double>& cache){
           h = arr[i];
       }
       auto end = std::chrono::high_resolution_clock::now();
-      cout << static_cast<int>(
-                  std::chrono::nanoseconds((end - start) / th).count())
-           << " ns, ";
+      ss << static_cast<int>(
+          std::chrono::nanoseconds((end - start) / th).count())
+         << " ns ";
     }
   }
 
-  void BackExperiment(const vector<unsigned int>& buffer) {
+  void BackExperiment(const vector<unsigned int>& buffer, ostream& ss) {
     for (double z = 0; z < buffer.size(); ++z) {
       auto* arr = new int[buffer[z] + 1];
 
       [[maybe_unused]] int h = 0;
-      for (unsigned int i = 1; i < buffer[z] + 1; i += st)  // прогрев
-        h = arr[i];
+
+      Heating(arr,h,buffer[z]);
 
       auto start = std::chrono::high_resolution_clock::now();
 
@@ -74,13 +74,13 @@ vector<unsigned int> GeneratorVector(vector<double>& cache){
       }
 
       auto end = std::chrono::high_resolution_clock::now();
-      cout << static_cast<int>(
-                  std::chrono::nanoseconds((end - start) / th).count())
-           << " ns, ";
+      ss << static_cast<int>(
+          std::chrono::nanoseconds((end - start) / th).count())
+         << " ns ";
     }
   }
 
-  void RandomExperiment(const vector<unsigned int>& buffer) {
+  void RandomExperiment(const vector<unsigned int>& buffer, ostream& ss) {
     for (double z = 0; z < buffer.size(); ++z) {
       auto* arr = new int[buffer[z]];
       vector<int> size;
@@ -93,23 +93,23 @@ vector<unsigned int> GeneratorVector(vector<double>& cache){
 
       [[maybe_unused]] int h = 0;
 
-      for (unsigned int i = 1; i < buffer[z] + 1; i += st)  // прогрев
-        h = arr[i];
+      Heating(arr,h,buffer[z]);
 
       auto startTime = std::chrono::high_resolution_clock::now();
 
       for (int hi = 0; hi < th; ++hi) {
-        for (unsigned int i = 0; i < (buffer[z] / st); i += 1)  // чтение
+        for (unsigned int i = 0; i < (buffer[z] / st); ++i)  // чтение
           h = arr[size[i]];
       }
 
       auto endTime = std::chrono::high_resolution_clock::now();
-      cout
-          << static_cast<int>(
+      string print;
+      ss << static_cast<int>(
                  std::chrono::nanoseconds((endTime - startTime) / th).count())
-          << " ns, ";
+          << " ns ";
     }
   }
+
   void Print(const vector<unsigned int>& buffer) {
     cout << R"(investigation:
     travel_variant: StraightExperiment
@@ -119,7 +119,7 @@ vector<unsigned int> GeneratorVector(vector<double>& cache){
     buffer_size: 0.125Mb, 1Mb, 2Mb, 4Mb, 8Mb, 9Mb
     results:
     duration: )";
-    StraightExperiment(buffer);
+    StraightExperiment(buffer, cout);
     cout << endl
          << R"(investigation:
     travel_variant: BackExperiment
@@ -129,7 +129,7 @@ vector<unsigned int> GeneratorVector(vector<double>& cache){
     buffer_size: 0.125Mb, 1Mb, 2Mb, 4Mb, 8Mb, 9Mb
     results:
     duration: )";
-    BackExperiment(buffer);
+    BackExperiment(buffer, cout);
     cout << endl
          << R"(investigation:
     travel_variant: RandomExperiment
@@ -139,5 +139,5 @@ vector<unsigned int> GeneratorVector(vector<double>& cache){
     buffer_size: 0.125Mb, 1Mb, 2Mb, 4Mb, 8Mb, 9Mb
     results:
     duration: )";
-    RandomExperiment(buffer);
+    RandomExperiment(buffer, cout);
   }
