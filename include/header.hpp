@@ -1,4 +1,4 @@
-// Copyright 2020 Your Name <your_email>
+// Copyright 2020 Yakov xaxaxaxa232@mail.ru
 
 #ifndef INCLUDE_HEADER_HPP_
 #define INCLUDE_HEADER_HPP_
@@ -27,7 +27,7 @@ void StraightExperiment(const vector<UNSINT>& buffer, ostream& ss);
 void BackExperiment(const vector<UNSINT>& buffer, ostream& ss);
 void RandomExperiment(const vector<UNSINT>& buffer, ostream& ss);
 void Print(const vector<UNSINT>& buffer);
-vector<UNSINT> GeneratorVector(vector<double>& cache);
+vector<unsigned> GeneratorVector(vector<double>& cache);
 inline void Heating (int* arr, int& h,const double& buffer);
 
 const int th = 1000;

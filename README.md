@@ -132,29 +132,31 @@ cache_size['3'] = 8 mb;
 
 ### Результаты
 
-Ниже представлен формат и пример отчета:
-
-```yaml
-investigation:                                       |  investigaion:
-  travel_variant: <вариант_прохода>                  |    travel_order: "direction"
-  experiments:                                       |    experiments:
-  - experiment:                                      |    - experiment:
-      number:                                        |        number: 1
-      input_data:                                    |        input_data:
-        buffer_size: <размер_буфера>                 |          buffer_size: "1mb"
-      results:                                       |        results:
-        duration: <продолжительность>                |          duration: "1ns"
-  - experiment:                                      |    - experiment:
-      number: <номер_эксперимента>                   |        number: 2
-      input_data:                                    |        input_data:
-        buffer_size: <размер_буфера>                 |          buffer_size: "2mb"
-      results:                                       |        results:
-        duration: <продолжительность>                |          duration: "2ns"
-                                                     |
-investigation:                                       |  investigation:
-...                                                  |  ...
+Отчёт:
+```investigation:
+    travel_variant: StraightExperiment
+    experiments:
+    number: 1
+    input_data:
+    buffer_size: 0.125Mb, 1Mb, 2Mb, 4Mb, 8Mb, 9Mb
+    results:
+    duration: 14639 ns 114863 ns 236608 ns 463975 ns 926059 ns 1241983 ns 
+investigation:
+    travel_variant: BackExperiment
+    experiments:
+    number: 2
+    input_data:
+    buffer_size: 0.125Mb, 1Mb, 2Mb, 4Mb, 8Mb, 9Mb
+    results:
+    duration: 6415 ns 52484 ns 112596 ns 235914 ns 448828 ns 522294 ns 
+investigation:
+    travel_variant: RandomExperiment
+    experiments:
+    number: 3
+    input_data:
+    buffer_size: 0.125Mb, 1Mb, 2Mb, 4Mb, 8Mb, 9Mb
+    results:
+    duration: 32528 ns 235814 ns 491892 ns 977225 ns 1779845 ns 2504313 ns 
 ```
-
-### Рекомендации
-
-При создание неиспользуемых переменных для считывание данных из буфера можно использовать аттрибут `[[maybe_unused]]`
+Прямой проход
+[]

@@ -1,3 +1,5 @@
+// Copyright 2020 Yakov xaxaxaxa232@mail.ru
+
 #include <header.hpp>
 #include <random>
 //128Kb<1Mb<2Mb<4Mb<8Mb<9Mb
@@ -33,7 +35,7 @@ vector<UNSINT> GeneratorVector(vector<double>& cache){
   cout << "}" << endl;
   vector<unsigned int> buffer(cache.size());
   for (double i = 0; i < cache.size(); ++i)
-    buffer[i] = cache[i] * 262144;
+    buffer[i] = cache[i] * conv;
   return  buffer;
 }
 
