@@ -3,19 +3,19 @@
 //128Kb<1Mb<2Mb<4Mb<8Mb<9Mb
 
 inline void Heating (int* arr, int& h,const double& buffer) {
-  for (unsigned int i = 1; i < buffer + 1; i += st)  // прогрев
+  for (UNSINT i = 0; i < buffer; i += st)
     h = arr[i];
 }
 
 int main() {
   vector<double> cache;
-  vector<unsigned int> buffer = GeneratorVector(cache);
+  vector<UNSINT> buffer = GeneratorVector(cache);
   Print(buffer);
 }
 
-vector<unsigned int> GeneratorVector(vector<double>& cache){
-  double sizeCacheMinMb = 0.125;
-  double sizeCacheMaxMb = 9;
+vector<UNSINT> GeneratorVector(vector<double>& cache){
+  double sizeCacheMinMb = 0.125;  //Min cache Mb
+  double sizeCacheMaxMb = 9;  //Max cache Mb
   cache.push_back(sizeCacheMinMb);
   int j = 0;
   int k = 0;
@@ -37,7 +37,7 @@ vector<unsigned int> GeneratorVector(vector<double>& cache){
   return  buffer;
 }
 
-  void StraightExperiment(const vector<unsigned int>& buffer, ostream& ss) {
+  void StraightExperiment(const vector<UNSINT>& buffer, ostream& ss) {
     for (double z = 0; z < buffer.size(); ++z) {
       auto* arr = new int[buffer[z]];
 
@@ -48,19 +48,21 @@ vector<unsigned int> GeneratorVector(vector<double>& cache){
       auto start = std::chrono::high_resolution_clock::now();
 
       for (int hi = 0; hi < th; ++hi) {
-        for (unsigned int i = 0; i < buffer[z]; i += st)  // чтение
+        for (UNSINT i = 0; i < buffer[z]; i += st)
           h = arr[i];
       }
+
       auto end = std::chrono::high_resolution_clock::now();
       ss << static_cast<int>(
           std::chrono::nanoseconds((end - start) / th).count())
          << " ns ";
+      delete[] arr;
     }
   }
 
-  void BackExperiment(const vector<unsigned int>& buffer, ostream& ss) {
+  void BackExperiment(const vector<UNSINT>& buffer, ostream& ss) {
     for (double z = 0; z < buffer.size(); ++z) {
-      auto* arr = new int[buffer[z] + 1];
+      auto* arr = new int[buffer[z]];
 
       [[maybe_unused]] int h = 0;
 
@@ -69,7 +71,7 @@ vector<unsigned int> GeneratorVector(vector<double>& cache){
       auto start = std::chrono::high_resolution_clock::now();
 
       for (int hi = 0; hi < th; ++hi) {
-        for (unsigned int i = buffer[z]; i >= 1; i -= st)  // чтение
+        for (unsigned int i = buffer[z]; i > 0; i -= st)
           h = arr[i];
       }
 
@@ -77,16 +79,17 @@ vector<unsigned int> GeneratorVector(vector<double>& cache){
       ss << static_cast<int>(
           std::chrono::nanoseconds((end - start) / th).count())
          << " ns ";
+      delete[] arr;
     }
   }
 
-  void RandomExperiment(const vector<unsigned int>& buffer, ostream& ss) {
+  void RandomExperiment(const vector<UNSINT>& buffer, ostream& ss) {
     for (double z = 0; z < buffer.size(); ++z) {
       auto* arr = new int[buffer[z]];
       vector<int> size;
       vector<int>::iterator start, end;
 
-      for (unsigned int i = 0; i < buffer[z]; i += st) size.emplace_back(i);
+      for (UNSINT i = 0; i < buffer[z]; i += st) size.emplace_back(i);
       start = size.begin();
       end = size.end();
       shuffle(start, end, std::mt19937(std::random_device()()));
@@ -98,7 +101,7 @@ vector<unsigned int> GeneratorVector(vector<double>& cache){
       auto startTime = std::chrono::high_resolution_clock::now();
 
       for (int hi = 0; hi < th; ++hi) {
-        for (unsigned int i = 0; i < (buffer[z] / st); ++i)  // чтение
+        for (UNSINT i = 0; i < (buffer[z] / st); ++i)
           h = arr[size[i]];
       }
 
@@ -107,10 +110,11 @@ vector<unsigned int> GeneratorVector(vector<double>& cache){
       ss << static_cast<int>(
                  std::chrono::nanoseconds((endTime - startTime) / th).count())
           << " ns ";
+      delete[] arr;
     }
   }
 
-  void Print(const vector<unsigned int>& buffer) {
+  void Print(const vector<UNSINT>& buffer) {
     cout << R"(investigation:
     travel_variant: StraightExperiment
     experiments:

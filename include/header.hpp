@@ -2,29 +2,32 @@
 
 #ifndef INCLUDE_HEADER_HPP_
 #define INCLUDE_HEADER_HPP_
-#include <vector>
+
+#define UNSINT unsigned int
+
+#include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <iostream>
-#include <sstream>
 #include <ostream>
-#include <chrono>
-#include <algorithm>
-#include <functional>
-#include <string>
+#include <random>
+#include <sstream>
+#include <vector>
 
-using std::vector;
+using std::cout;
 using std::pow;
 using std::cout;
 using std::ostream;
 using std::stringstream;
 using std::endl;
 using std::string;
+using std::vector;
 
-void StraightExperiment(const vector<unsigned int>& buffer, ostream& ss);
-void BackExperiment(const vector<unsigned int>& buffer, ostream& ss);
-void RandomExperiment(const vector<unsigned int>& buffer, ostream& ss);
-void Print(const vector<unsigned int>& buffer);
-vector<unsigned int> GeneratorVector(vector<double>& cache);
+void StraightExperiment(const vector<UNSINT>& buffer, ostream& ss);
+void BackExperiment(const vector<UNSINT>& buffer, ostream& ss);
+void RandomExperiment(const vector<UNSINT>& buffer, ostream& ss);
+void Print(const vector<UNSINT>& buffer);
+vector<UNSINT> GeneratorVector(vector<double>& cache);
 inline void Heating (int* arr, int& h,const double& buffer);
 
 const int th = 1000;
